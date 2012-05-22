@@ -66,7 +66,17 @@ class Form extends \Laravel\Form {
 			$out .= Form::label($name, $label, array('class' => 'control-label'));
 		}
 		$out .= '<div class="controls">'.PHP_EOL;
+		
+		if(array_key_exists('add_on', $opts))
+		{
+			$out .= '<div class="input-prepend"><span class="add-on">'.$opts['add_on'].'</span>';
+		}
 		$out .= forward_static_call_array(array('Form', $type), $args);
+		if(array_key_exists('add_on', $opts))
+		{
+			$out .= '</div>';
+		}
+
 		foreach (array('error', 'warning', 'success') as $key)
 		{
 			if ( ! empty($opts[$key]) and is_string($opts[$key]))
