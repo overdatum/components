@@ -1,0 +1,6 @@
+[submodule "cartalyst/nesty"]
+	path = cartalyst/nesty
+	url = https://github.com/cartalyst/nesty.git
+[submodule "cartalyst/crud"]
+	path = cartalyst/crud
+	url = https://github.com/cartalyst/crud.git
