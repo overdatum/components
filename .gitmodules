@@ -4,6 +4,3 @@
 [submodule "cartalyst/crud"]
 	path = cartalyst/crud
 	url = https://github.com/cartalyst/crud.git
-[submodule "requests"]
-	path = requests
-	url = https://github.com/tomasz-tomczyk/requests.git

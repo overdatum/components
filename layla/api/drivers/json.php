@@ -2,6 +2,8 @@
 
 use Components\Layla\API\Response;
 
+use Httpful\Request;
+
 use Laravel\Config;
 use Exception;
 
@@ -13,30 +15,22 @@ class JSON extends Driver {
 		
 		$config = static::config();
 		
-		$headers = array(
-			'accept: application/json',
-			'content-type: application/json',
-		);
+		$response = Request::init($method)
+					->uri($url)->mime('json')
+					->basicAuth($config['username'], $config['password'])
+					->send();
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_USERPWD, $config['username'].':'.$config['password']);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-		
-		if($method !== 'GET' && $method !== 'DELETE')
+		if($response->code === 404)
 		{
-			$data = json_encode($data);
- 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			throw new Exception('API method "'.$url.'" does not exist.');
 		}
 
-		$body = curl_exec($ch);
-		$response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if($response->code === 401)
+		{
+			throw new Exception('Unauthorized to use this API method "'.$url.'".');
+		}
 
-		return new Response($response_code, $body);
+		return new Response($response->code, $response->body);
 	}
 
 }

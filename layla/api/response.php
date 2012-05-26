@@ -17,15 +17,9 @@ class Response {
 		$this->success = $code === 200;
 	}
 
-	protected function json_to_array($json)
-	{
-		return json_decode($json);	
-	}
-
 	public function get($key = null, $default = null)
 	{
-		$data = $this->json_to_array($this->body);
-		return is_null($key) ? $data : array_get((array) $data, $key, $default);
+		return is_null($key) ? $this->body : array_get((array) $this->body, $key, $default);
 	}
 
 }
