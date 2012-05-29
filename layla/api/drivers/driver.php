@@ -1,6 +1,6 @@
-<?php namespace Components\Layla\API\Drivers;
+<?php namespace Layla\API\Drivers;
 
-use Components\Layla\API;
+use Layla\API;
 
 use Laravel\Config;
 

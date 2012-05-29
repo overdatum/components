@@ -1,4 +1,4 @@
-<?php namespace Components\Layla;
+<?php namespace Layla;
 
 use Laravel\Session;
 use Laravel\View;
@@ -32,7 +32,7 @@ class Notification  {
 		$notifications = Session::get('notifications');
 			if(count($notifications) > 0)
 			{
-				return View::make('layla_admin::layouts.notifications')->with('notifications', $notifications);
+				return View::make('admin::layouts.notifications')->with('notifications', $notifications);
 			}
 	}
 

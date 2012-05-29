@@ -1,4 +1,4 @@
-<?php namespace Components\Layla\API;
+<?php namespace Layla\API;
 
 use ArrayObject;
 

@@ -1,4 +1,6 @@
-<?php defined('DS') or die('No direct script access.');
+<?php namespace Layla;
+
+use Laravel\Config;
 
 class DBManager {
 

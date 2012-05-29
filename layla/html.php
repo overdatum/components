@@ -1,4 +1,4 @@
-<?php namespace Components\Layla;
+<?php namespace Layla;
 
 use Laravel\URL;
 use Laravel\Input;

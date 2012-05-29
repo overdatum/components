@@ -1,6 +1,6 @@
-<?php namespace Components\Layla\API\Drivers;
+<?php namespace Layla\API\Drivers;
 
-use Components\Layla\API\Response;
+use Layla\API\Response;
 
 use Httpful\Request;
 

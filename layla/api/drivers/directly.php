@@ -1,8 +1,8 @@
-<?php namespace Components\Layla\API\Drivers;
+<?php namespace Layla\API\Drivers;
 
 use Exception;
 
-use Components\Layla\API\Response;
+use Layla\API\Response;
 
 use Laravel\Input;
 use Laravel\Request;

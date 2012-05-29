@@ -1,4 +1,4 @@
-<?php namespace DBManager\Drivers;
+<?php namespace Layla\DBManager\Drivers;
 
 use DBManager;
 use Laravel\Config;
