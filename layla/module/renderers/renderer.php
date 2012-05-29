@@ -9,7 +9,6 @@ class Renderer {
 		{
 			foreach ($field as $type => $options)
 			{
-				//var_dump($options);
 				$html .= call_user_func_array(array($this, $type), $options);
 			}
 		}
@@ -21,6 +20,15 @@ class Renderer {
 	{
 		$children = (array) $children;
 		return implode("\n", $children);
+	}
+
+	public function nest($method, $children)
+	{
+		$arguments = func_get_args();
+		$arguments = array_slice($arguments, 2);
+		
+		$children = $this->render($children);
+		return call_user_func_array(array($this, $method), array_merge(array($children), $arguments));
 	}
 
 }

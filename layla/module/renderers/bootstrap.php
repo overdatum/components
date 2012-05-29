@@ -39,7 +39,7 @@ class Bootstrap extends Renderer {
 			Form::close();
 	}
 
-	public function form($children, $method = 'GET', $url = 'geen')
+	public function form($children, $method = 'GET', $url = '')
 	{
 		return
 			Form::open($url, strtoupper($method), array('class' => 'form-horizontal')).
@@ -75,15 +75,6 @@ class Bootstrap extends Renderer {
 	public function submit($text, $variant = '', $size = 'large')
 	{
 		return Form::submit($text, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
-	}
-
-	public function nest($method, $children)
-	{
-		$arguments = func_get_args();
-		$arguments = array_slice($arguments, 2);
-		
-		$children = $this->render($children);
-		return call_user_func_array(array($this, $method), array_merge(array($children), $arguments));
 	}
 
 }
