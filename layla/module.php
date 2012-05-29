@@ -77,11 +77,11 @@ class Module {
 	}
 
 	/**
-	 * The method for registering and rendering the page
+	 * The method for rendering the fields
 	 */
 	public static function render($callback)
 	{
-		call_user_func($callback, $fields = new Fields($callback));
+		$callback($fields = new Fields($callback));
 		return static::driver()->render($fields->fields);
 	}
 

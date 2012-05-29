@@ -7,8 +7,7 @@ class Bootstrap extends Renderer {
 
 	public function page_header($children)
 	{
-		$children = (array) $children;
-		return HTML::div(implode("\n", $children), array('class' => 'page-header'));
+		return HTML::div(implode("\n", (array) $children), array('class' => 'page-header'));
 	}
 
 	public function float_right($children)
@@ -23,8 +22,7 @@ class Bootstrap extends Renderer {
 
 	protected function float($float, $children)
 	{
-		$children = (array) $children;
-		return HTML::div(implode("\n", $children), array('class' => 'pull-right'));
+		return HTML::div(implode("\n", (array) $children), array('class' => 'pull-right'));
 	}
 
 	public function title($title)
@@ -41,12 +39,11 @@ class Bootstrap extends Renderer {
 			Form::close();
 	}
 
-	public function form($children, $method = 'GET', $url = '')
+	public function form($children, $method = 'GET', $url = 'geen')
 	{
-		$children = (array) $children;
 		return
 			Form::open($url, strtoupper($method), array('class' => 'form-horizontal')).
-				implode("\n", $children).
+				implode("\n", (array) $children).
 			Form::close();
 	}
 
@@ -72,8 +69,7 @@ class Bootstrap extends Renderer {
 
 	public function actions($children)
 	{
-		$children = (array) $children;
-		return Form::actions($children);
+		return Form::actions((array) $children);
 	}
 
 	public function submit($text, $variant = '', $size = 'large')
@@ -83,7 +79,11 @@ class Bootstrap extends Renderer {
 
 	public function nest($method, $children)
 	{
-		return $this->$method($this->render($children));
+		$arguments = func_get_args();
+		$arguments = array_slice($arguments, 2);
+		
+		$children = $this->render($children);
+		return call_user_func_array(array($this, $method), array_merge(array($children), $arguments));
 	}
 
 }

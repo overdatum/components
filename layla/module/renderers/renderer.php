@@ -9,6 +9,7 @@ class Renderer {
 		{
 			foreach ($field as $type => $options)
 			{
+				//var_dump($options);
 				$html .= call_user_func_array(array($this, $type), $options);
 			}
 		}
