@@ -43,10 +43,8 @@ class Bootstrap extends Renderer {
 			Form::close();
 	}
 
-	public function form($children, $method = 'GET', $url = '')
+	public function form($content, $method = 'GET', $url = '')
 	{
-		$content = Module::render($children);
-
 		return
 			Form::open($url, strtoupper($method), array('class' => 'form-horizontal')).
 				$content.
