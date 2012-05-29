@@ -22,13 +22,9 @@ class Renderer {
 		return implode("\n", $children);
 	}
 
-	public function nest($method, $children)
+	public function raw($children)
 	{
-		$arguments = func_get_args();
-		$arguments = array_slice($arguments, 2);
-		
-		$children = $this->render($children);
-		return call_user_func_array(array($this, $method), array_merge(array($children), $arguments));
+		return $children();
 	}
 
 }

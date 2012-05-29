@@ -1,5 +1,7 @@
 <?php namespace Layla\Module\Renderers;
 
+use Layla\Module;
+
 use Bootsparks\Form;
 use Bootsparks\HTML;
 
@@ -7,7 +9,8 @@ class Bootstrap extends Renderer {
 
 	public function page_header($children)
 	{
-		return HTML::div(implode("\n", (array) $children), array('class' => 'page-header'));
+		$content = Module::render($children);
+		return HTML::div($content, array('class' => 'page-header'));
 	}
 
 	public function float_right($children)
@@ -22,7 +25,8 @@ class Bootstrap extends Renderer {
 
 	protected function float($float, $children)
 	{
-		return HTML::div(implode("\n", (array) $children), array('class' => 'pull-right'));
+		$content = Module::render($children);
+		return HTML::div($content, array('class' => 'pull-right'));
 	}
 
 	public function title($title)
@@ -41,9 +45,11 @@ class Bootstrap extends Renderer {
 
 	public function form($children, $method = 'GET', $url = '')
 	{
+		$content = Module::render($children);
+
 		return
 			Form::open($url, strtoupper($method), array('class' => 'form-horizontal')).
-				implode("\n", (array) $children).
+				$content.
 			Form::close();
 	}
 
@@ -69,7 +75,8 @@ class Bootstrap extends Renderer {
 
 	public function actions($children)
 	{
-		return Form::actions((array) $children);
+		$content = Module::render($children);
+		return Form::actions($content);
 	}
 
 	public function submit($text, $variant = '', $size = 'large')
