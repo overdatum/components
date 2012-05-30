@@ -53,6 +53,17 @@ class Bootstrap extends Renderer {
 			Form::close();
 	}
 
+	public function link($url, $title)
+	{
+		return HTML::link($url, $title);
+	}
+
+	public function well($children)
+	{
+		$content = Module::render($children);
+		return HTML::div($content, array('class' => 'well'));
+	}
+
 	public function text($name, $label, $value = '')
 	{
 		return Form::field('text', $name, $label, array($value), array('error' => $this->errors->first($name)));
@@ -82,6 +93,11 @@ class Bootstrap extends Renderer {
 	public function submit($text, $variant = '', $size = 'large')
 	{
 		return Form::submit($text, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
+	}
+
+	public function button($url, $title, $variant = '', $size = 'large')
+	{
+		return HTML::link($url, $title, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
 	}
 
 }

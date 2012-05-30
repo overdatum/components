@@ -52,6 +52,11 @@ class Renderer {
 	 */
 	public function add($children)
 	{
+		if(is_string($children))
+		{
+			return $children;
+		}
+
 		$output = '';
 		foreach ((array) $children as $child)
 		{
@@ -68,14 +73,14 @@ class Renderer {
 	}
 
 	/**
-	 * Method for adding the return value of the callback to the output
+	 * Method for adding raw text to the output
 	 * 
-	 * @param mixed $callback
+	 * @param contents $string
 	 * @return string
 	 */
-	public function raw($callback)
+	public function raw($contents)
 	{
-		return $callback();
+		return $contents;
 	}
 
 }
