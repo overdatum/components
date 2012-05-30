@@ -1,5 +1,7 @@
 <?php namespace Layla\Module\Renderers;
 
+use Laravel\Session;
+
 use Layla\Module;
 
 use Bootsparks\Form;
@@ -23,10 +25,10 @@ class Bootstrap extends Renderer {
 		return $this->float('left', $children);
 	}
 
-	protected function float($float, $children)
+	public function float($float, $children)
 	{
 		$content = Module::render($children);
-		return HTML::div($content, array('class' => 'pull-right'));
+		return HTML::div($content, array('class' => 'pull-'.$float));
 	}
 
 	public function title($title)
@@ -53,17 +55,17 @@ class Bootstrap extends Renderer {
 
 	public function text($name, $label, $value = '')
 	{
-		return Form::field('text', $name, $label, array($value));
+		return Form::field('text', $name, $label, array($value), array('error' => $this->errors->first($name)));
 	}
 
 	public function password($name, $label, $value = '')
 	{
-		return Form::field('password', $name, $label);
+		return Form::field('password', $name, $label, array(), array('error' => $this->errors->first($name)));
 	}
 
 	public function multiple($name, $label, $options, $selected = array())
 	{
-		return Form::field('select', $name, $label, array($options, $selected, array('multiple' => 'multiple')), array('error' => array()));
+		return Form::field('select', $name, $label, array($options, $selected, array('multiple' => 'multiple')), array('error' => $this->errors->first(str_replace('[]', '', $name))));
 	}
 
 	public function dropdown($name, $label, $options, $selected = array())
