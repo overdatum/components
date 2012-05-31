@@ -11,7 +11,7 @@ use \ReflectionClass;
  *
  * @see http://twitter.github.com/bootstrap/
  */
-class Form extends \Laravel\Form {
+class Form extends \Layla\Form {
 
 	/**
 	 * Stacked, left-aligned labels over controls

@@ -41,8 +41,43 @@ class Bootstrap extends Renderer {
 		return
 			Form::open('', 'GET').
 				Form::text('q', null, array('placeholder' => 'Search')).
-				Form::submit('go', array('class' => 'btn btn-primary')).
+				Form::submit('<span class="icon-search icon-white"></span>', array('class' => 'btn btn-primary')).
 			Form::close();
+	}
+
+	public function table($config)
+	{
+		return HTML::element('table', Module::render($config, 'table'), array('class' => 'table table-striped'));
+	}
+
+	public function thead($children)
+	{
+		return HTML::element('thead', Module::render($children));
+	}
+
+	public function tbody($children)
+	{
+		return HTML::element('tbody', Module::render($children));
+	}
+
+	public function tr($children)
+	{
+		return HTML::element('tr', Module::render($children));
+	}
+
+	public function th($content)
+	{
+		return HTML::element('th', $content);
+	}
+
+	public function td($content)
+	{
+		return HTML::element('td', $content);
+	}
+
+	public function links($paginator)
+	{
+		return $paginator->links();
 	}
 
 	public function form($content, $method = 'GET', $url = '')

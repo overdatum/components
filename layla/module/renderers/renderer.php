@@ -1,5 +1,7 @@
 <?php namespace Layla\Module\Renderers;
 
+use Layla\Notification;
+
 use Closure;
 
 use Laravel\Session;
@@ -22,6 +24,11 @@ class Renderer {
 	public function __construct()
 	{
 		$this->errors = Session::has('errors') ? Session::get('errors') : new Messages(); 
+	}
+
+	public function notifications()
+	{
+		return Notification::show();
 	}
 
 	/**

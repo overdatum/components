@@ -2,9 +2,12 @@
 
 use Closure;
 use Exception;
+
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Bundle;
+
+use Layla\Module\Renderers\Table;
 use Layla\Module\Renderers\Bootstrap;
 use Layla\Module\Catcher;
 
@@ -71,6 +74,8 @@ class Module {
 		{
 			case 'bootstrap':
 				return new Bootstrap;
+			case 'table':
+				return new Table;
 
 			default:
 				throw new Exception("Module renderer driver {$driver} is not supported.");
@@ -156,10 +161,10 @@ class Module {
 	/**
 	 * The method for rendering the fields
 	 */
-	public static function render($callback)
+	public static function render($callback, $driver = null)
 	{
 		$callback($catched = new Catcher);
-		return static::driver()->render($catched->calls);
+		return static::driver($driver)->render($catched->calls);
 	}
 
 }
