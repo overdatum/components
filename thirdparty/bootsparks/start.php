@@ -15,3 +15,5 @@ Autoloader::map(array(
 	'Bootsparks\\Form' => __DIR__.DS.'form'.EXT,
 	'Bootsparks\\HTML' => __DIR__.DS.'html'.EXT,
 ));
+
+Autoloader::alias('Bootsparks\\Form', 'Form');
