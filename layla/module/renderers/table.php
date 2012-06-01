@@ -58,6 +58,11 @@ class Table extends Renderer {
 			{
 				foreach ($columns as $column => $title)
 				{
+					if(is_array($title))
+					{
+						$title = array_key_exists('title', $title) ? $title['title'] : '';
+					}
+
 					$table->th(in_array($column, $sortable) ? HTML::sort_link('', $column, $title) : $title);
 				}
 			});
@@ -70,7 +75,13 @@ class Table extends Renderer {
 					{
 						foreach ($columns as $column => $title)
 						{
-							$table->td( ! empty($column) ? (array_key_exists($column, $options) ? call_user_func($options[$column], $row) : $row->$column) : '');
+							$attributes = array();	
+							if(is_array($title))
+							{
+								extract($title);
+							}
+							
+							$table->td( ! empty($column) ? (array_key_exists($column, $options) ? call_user_func($options[$column], $row) : $row->$column) : '', $attributes);
 						}
 					});						
 				}

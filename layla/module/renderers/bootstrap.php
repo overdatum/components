@@ -38,11 +38,12 @@ class Bootstrap extends Renderer {
 
 	public function search()
 	{
-		return
+		return HTML::div(
 			Form::open('', 'GET').
 				Form::text('q', null, array('placeholder' => 'Search')).
 				Form::submit('<span class="icon-search icon-white"></span>', array('class' => 'btn btn-primary')).
-			Form::close();
+			Form::close()
+		, array('id' => 'search'));
 	}
 
 	public function table($config)
@@ -70,9 +71,9 @@ class Bootstrap extends Renderer {
 		return HTML::element('th', $content);
 	}
 
-	public function td($content)
+	public function td($content, $attributes = array())
 	{
-		return HTML::element('td', $content);
+		return HTML::element('td', $content, $attributes);
 	}
 
 	public function links($paginator)

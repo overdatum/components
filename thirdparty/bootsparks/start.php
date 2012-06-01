@@ -17,3 +17,4 @@ Autoloader::map(array(
 ));
 
 Autoloader::alias('Bootsparks\\Form', 'Form');
+Autoloader::alias('Bootsparks\\HTML', 'HTML');
