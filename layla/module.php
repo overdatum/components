@@ -164,24 +164,26 @@ class Module {
 	 */
 	protected static function load($type, $name, $arguments = array())
 	{
-		if(array_key_exists($name, static::$modules[$type]))
+		if( ! array_key_exists($name, static::$modules[$type]))
 		{
-			if(static::$modules[$type][$name] instanceof Closure)
-			{
-				return static::render(static::$modules[$type][$name]);
-			}
-			else
-			{
-				list($file, $class_name, $method) = static::parse($name, $type);
-				require_once $file;
-				return static::render(function($catcher) use ($class_name, $method, $arguments)
-				{
-					array_unshift($arguments, $catcher);
-					$class = new $class_name;
-					return call_user_func_array(array($class, $method), $arguments);
-				});
-			}
+			return;
 		}
+
+		if(static::$modules[$type][$name] instanceof Closure)
+		{
+			return static::render(static::$modules[$type][$name]);
+		}
+		
+		list($file, $class_name, $method) = static::parse($name, $type);
+
+		require_once $file;
+		
+		return static::render(function($catcher) use ($class_name, $method, $arguments)
+		{
+			array_unshift($arguments, $catcher);
+			$class = new $class_name;
+			return call_user_func_array(array($class, $method), $arguments);
+		});
 	}
 
 	/**
