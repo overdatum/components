@@ -1,4 +1,25 @@
-<?php namespace Layla\API\Drivers;
+<?php
+/**
+ * Part of the API for Layla.
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the 3-clause BSD License.
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file licence.txt.
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@getlayla.com so I can send you a copy immediately.
+ *
+ * @package    Layla Components
+ * @version    1.0
+ * @author     Koen Schmeets <koen@getlayla.com>
+ * @license    MIT License
+ * @link       http://getlayla.com
+ */
+
+namespace Layla\API\Drivers;
 
 use Layla\API\Response;
 
@@ -9,7 +30,14 @@ use Exception;
 
 class JSON extends Driver {
 
-	public static function request($method, $segments, $data)
+	/**
+	 * Make a JSON request
+	 * 
+	 * @param string 	$method 	GET, POST, PUT, DELETE, etc.
+	 * @param array 	$segments 	for example array('account', 'all')
+	 * @param array 	$data 		the post / put data
+	 */
+	public static function request($method, $segments, $data = array())
 	{
 		$url = implode('', static::url($segments, $data));
 		

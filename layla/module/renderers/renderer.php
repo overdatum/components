@@ -1,5 +1,27 @@
-<?php namespace Layla\Module\Renderers;
+<?php
+/**
+ * Part of the Module builder for Layla.
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the 3-clause BSD License.
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file licence.txt.
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@getlayla.com so I can send you a copy immediately.
+ *
+ * @package    Layla Components
+ * @version    1.0
+ * @author     Koen Schmeets <koen@getlayla.com>
+ * @license    MIT License
+ * @link       http://getlayla.com
+ */
 
+namespace Layla\Module\Renderers;
+
+use Layla\Module\Catcher;
 use Layla\Notification;
 
 use Closure;
@@ -32,15 +54,17 @@ class Renderer {
 	}
 
 	/**
-	 * Method for rendering an array of fields
+	 * Method for rendering the calls in a callback function
 	 * 
-	 * @param $fields array
-	 * @return $html string
+	 * @param $callback	Closure
+	 * @return $html	string
 	 */
-	public function render($fields)
+	public function render($callback)
 	{
+		$callback($catched = new Catcher);
+
 		$html = '';
-		foreach ($fields as $field)
+		foreach ($catched->calls as $field)
 		{
 			foreach ($field as $type => $options)
 			{
@@ -49,6 +73,24 @@ class Renderer {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Method for applying the calls in a callback function to the driver
+	 * 
+	 * @param $callback	Closure
+	 * @return void
+	 */
+	public function apply($callback)
+	{
+		$callback($catched = new Catcher);
+		foreach ($catched->calls as $field)
+		{
+			foreach ($field as $type => $options)
+			{
+				call_user_func_array(array($this, $type), $options);
+			}
+		}		
 	}
 
 	/**

@@ -62,7 +62,7 @@ class Menu {
 		return $html;
 	}
 
-	public function items()
+	public static function items()
 	{
 		return new MenuItems();
 	}

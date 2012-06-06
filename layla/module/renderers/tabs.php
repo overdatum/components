@@ -19,30 +19,51 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module;
+namespace Layla\Module\Renderers;
 
-/**
- * This class will catch all methods (and their arguments) that are called on it
- */
-class Catcher {
+use Closure;
+
+use Laravel\Session;
+
+use Layla\Module;
+use Layla\Module\Catcher;
+
+use Bootsparks\Form;
+use Bootsparks\HTML;
+
+class Tabs extends Renderer {
 
 	/**
-	 * All of the methods that are called on this class including their arguments
+	 * The index of the active tab
+	 * 
+	 * @var integer
+	 */
+	public $active = 1;
+
+	/**
+	 * The titles for the tabs
 	 * 
 	 * @var array
 	 */
-	public $calls = array();
+	public $titles = array();
 
 	/**
-	 * Collect the method calls.
-	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
-	 * @return void
+	 * The contents of the tabs
+	 * 
+	 * @var array
 	 */
-	public function __call($method, $arguments)
+	public $contents = array();
+
+	/**
+	 * Add a tab
+	 * 
+	 * @param string	$title		the title of the tab
+	 * @param Closure	$content	the contents of the tab
+	 */
+	public function tab($title, Closure $content)
 	{
-		$this->calls[] = array($method => $arguments);
+		$this->titles[] = $title;
+		$this->contents[] = $content;
 	}
 
 }

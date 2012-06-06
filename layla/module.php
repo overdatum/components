@@ -1,4 +1,30 @@
-<?php namespace Layla;
+<?php
+/**
+ * Part of the Module builder for Layla.
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the 3-clause BSD License.
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file licence.txt.
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@getlayla.com so I can send you a copy immediately.
+ *
+ * @package    Layla Components
+ * @version    1.0
+ * @author     Koen Schmeets <koen@getlayla.com>
+ * @license    MIT License
+ * @link       http://getlayla.com
+ */
+
+namespace Layla;
+
+use Layla\Module\Renderers\Tabs;
+use Layla\Module\Renderers\Table;
+use Layla\Module\Renderers\Bootstrap;
+use Layla\Module\Catcher;
 
 use Closure;
 use Exception;
@@ -6,10 +32,6 @@ use Exception;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Bundle;
-
-use Layla\Module\Renderers\Table;
-use Layla\Module\Renderers\Bootstrap;
-use Layla\Module\Catcher;
 
 class Module {
 
@@ -76,9 +98,11 @@ class Module {
 				return new Bootstrap;
 			case 'table':
 				return new Table;
+			case 'tabs':
+				return new Tabs;
 
 			default:
-				throw new Exception("Module renderer driver {$driver} is not supported.");
+				throw new Exception("Module renderer driver \"{$driver}\" is not supported.");
 		}
 	}
 
@@ -135,7 +159,7 @@ class Module {
 		list($path, $method) = explode('@', static::$modules[$type][$name]);
 		list($bundle, $path) = Bundle::parse($path);
 
-		$file = Bundle::path($bundle).$type.'s'.DS.str_replace('.', DS, $path).EXT;
+		$file = Bundle::path($bundle).Str::plural($type).DS.str_replace('.', DS, $path).EXT;
 		$class_name = static::format($bundle, $path, $type);
 
 		return array($file, $class_name, $method);
@@ -161,10 +185,9 @@ class Module {
 	/**
 	 * The method for rendering the fields
 	 */
-	public static function render($callback, $driver = null)
+	public static function render($callback)
 	{
-		$callback($catched = new Catcher);
-		return static::driver($driver)->render($catched->calls);
+		return static::driver()->render($callback);
 	}
 
 }

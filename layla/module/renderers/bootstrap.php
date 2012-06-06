@@ -1,4 +1,25 @@
-<?php namespace Layla\Module\Renderers;
+<?php
+/**
+ * Part of the Module builder for Layla.
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the 3-clause BSD License.
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file licence.txt.
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@getlayla.com so I can send you a copy immediately.
+ *
+ * @package    Layla Components
+ * @version    1.0
+ * @author     Koen Schmeets <koen@getlayla.com>
+ * @license    MIT License
+ * @link       http://getlayla.com
+ */
+
+namespace Layla\Module\Renderers;
 
 use Laravel\Session;
 
@@ -9,31 +30,36 @@ use Bootsparks\HTML;
 
 class Bootstrap extends Renderer {
 
-	public function page_header($children)
+	public function page_header($callback)
 	{
-		$content = Module::render($children);
+		$content = Module::render($callback);
 		return HTML::div($content, array('class' => 'page-header'));
 	}
 
-	public function float_right($children)
+	public function float_right($callback, $attributes = array())
 	{
-		return $this->float('right', $children);
+		return $this->float('right', $callback, $attributes);
 	}
 
-	public function float_left($children)
+	public function float_left($callback, $attributes = array())
 	{
-		return $this->float('left', $children);
+		return $this->float('left', $callback, $attributes);
 	}
 
-	public function float($float, $children)
+	public function float($float, $callback, $attributes = array())
 	{
-		$content = Module::render($children);
-		return HTML::div($content, array('class' => 'pull-'.$float));
+		$content = Module::render($callback);
+		return HTML::div($content, merge_attributes(array('class' => 'pull-'.$float), $attributes));
 	}
 
 	public function title($title)
 	{
-		return HTML::h1($title);
+		return HTML::element('h1', $title);
+	}
+
+	public function sub_title($title)
+	{
+		return HTML::div(HTML::div(HTML::element('h3', $title), array('class' => 'controls')), array('class' => 'control-group'));
 	}
 
 	public function search()
@@ -48,22 +74,22 @@ class Bootstrap extends Renderer {
 
 	public function table($config)
 	{
-		return HTML::element('table', Module::render($config, 'table'), array('class' => 'table table-striped'));
+		return HTML::element('table', Module::driver('table')->render($config), array('class' => 'table table-striped'));
 	}
 
-	public function thead($children)
+	public function thead($callback)
 	{
-		return HTML::element('thead', Module::render($children));
+		return HTML::element('thead', Module::render($callback));
 	}
 
-	public function tbody($children)
+	public function tbody($callback)
 	{
-		return HTML::element('tbody', Module::render($children));
+		return HTML::element('tbody', Module::render($callback));
 	}
 
-	public function tr($children)
+	public function tr($callback)
 	{
-		return HTML::element('tr', Module::render($children));
+		return HTML::element('tr', Module::render($callback));
 	}
 
 	public function th($content)
@@ -94,9 +120,9 @@ class Bootstrap extends Renderer {
 		return HTML::link($url, $title);
 	}
 
-	public function well($children)
+	public function well($callback)
 	{
-		$content = Module::render($children);
+		$content = Module::render($callback);
 		return HTML::div($content, array('class' => 'well'));
 	}
 
@@ -120,9 +146,9 @@ class Bootstrap extends Renderer {
 		return Form::field('select', $name, $label, array($options, $selected));
 	}
 
-	public function actions($children)
+	public function actions($callback)
 	{
-		$content = Module::render($children);
+		$content = Module::render($callback);
 		return Form::actions($content);
 	}
 
@@ -134,6 +160,39 @@ class Bootstrap extends Renderer {
 	public function button($url, $title, $variant = '', $size = 'large')
 	{
 		return HTML::link($url, $title, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
+	}
+
+	public function tabs($callback, $variant = 'top')
+	{
+		$tabs = Module::driver('tabs');
+
+		$tabs->apply($callback);
+
+		$list = array();
+		foreach($tabs->titles as $i => $title)
+		{
+			$i++;
+			$attributes = ($i == $tabs->active ? array('class' => 'active') : array());
+			$list[] = HTML::element('li', HTML::link('#tab'.$i, $title, array('data-toggle' => 'tab')), $attributes);
+		}
+
+		$output = HTML::ul($list, array('class' => 'nav nav-tabs'));
+
+		$contents = '';
+		foreach ($tabs->contents as $i => $content)
+		{
+			$i++;
+			$contents .= HTML::div(Module::render($content), array('id' => 'tab'.$i, 'class' => 'tab-pane'.($i == $tabs->active ? ' active' : '')));
+		}
+
+		$output .= HTML::div($contents, array('class' => 'tab-content'));
+	
+		if($variant !== 'top')
+		{
+			return HTML::div($output, array('class' => 'tabbable tab-'.$variant));
+		}
+
+		return $output;
 	}
 
 }
