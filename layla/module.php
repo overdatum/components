@@ -166,7 +166,7 @@ class Module {
 	{
 		if( ! array_key_exists($name, static::$modules[$type]))
 		{
-			return;
+			throw new Exception("The {$type} you are trying to retrieve does not exist.");
 		}
 
 		if(static::$modules[$type][$name] instanceof Closure)
@@ -177,7 +177,7 @@ class Module {
 		list($file, $class_name, $method) = static::parse($name, $type);
 
 		require_once $file;
-		
+
 		return static::render(function($catcher) use ($class_name, $method, $arguments)
 		{
 			array_unshift($arguments, $catcher);
