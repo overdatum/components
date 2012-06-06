@@ -26,6 +26,9 @@ use Httpful\Request;
 use Laravel\Config;
 use Exception;
 
+/**
+ * This class makes it easy to call methods on the Layla API (Returning JSON data) via HTTP
+ */
 class JSON extends Driver {
 
 	/**

@@ -23,6 +23,9 @@ use Laravel\URL;
 use Laravel\Input;
 use Laravel\HTML as Laravel_HTML;
 
+/**
+ * This class adds some functionality to Laravel's HTML class
+ */
 class HTML extends Laravel_HTML {
 
 	public static function link($url, $title, $attributes = array(), $https = false)

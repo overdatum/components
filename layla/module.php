@@ -31,6 +31,10 @@ use Laravel\Str;
 use Laravel\Config;
 use Laravel\Bundle;
 
+/**
+ * This class can turn an array or a callback defining a view into HTML and has
+ * Driver support. (Bootstrap, Table and Tabs drivers are included)
+ */
 class Module {
 
 	/**
@@ -61,6 +65,7 @@ class Module {
 	 * Get a module renderer driver instance.
 	 *
 	 * @param  string  $driver
+	 * 
 	 * @return Driver
 	 */
 	public static function driver($driver = null)
@@ -79,6 +84,7 @@ class Module {
 	 * Create a new module renderer driver instance.
 	 *
 	 * @param  string  $driver
+	 * 
 	 * @return Driver
 	 */
 	protected static function factory($driver)
@@ -109,6 +115,7 @@ class Module {
 	 *
 	 * @param  string   $driver
 	 * @param  Closure  $resolver
+	 * 
 	 * @return void
 	 */
 	public static function extend($driver, Closure $resolver)
@@ -116,6 +123,14 @@ class Module {
 		static::$registrar[$driver] = $resolver;
 	}
 
+	/**
+	 * Retrieve a page by it's name
+	 * 
+	 * @param 	string 	$name 		the page identifier
+	 * @param 	mixed 				any number / type of extra arguments
+	 * 
+	 * @return 	string 	the HTML
+	 */
 	public static function page($name)
 	{
 		$arguments = func_get_args();
@@ -123,6 +138,14 @@ class Module {
 		return static::load('page', $name, $arguments);
 	}
 
+	/**
+	 * Retrieve a form by it's name
+	 * 
+	 * @param 	string 	$name 	the form identifier
+	 * @param 	mixed 				any number / type of extra arguments
+	 * 
+	 * @return 	string 	the HTML
+	 */
 	public static function form($name)
 	{
 		$arguments = func_get_args();
@@ -130,6 +153,15 @@ class Module {
 		return static::load('form', $name, $arguments);
 	}
 
+	/**
+	 * Retrieve a page or form
+	 * 
+	 * @param 	string 	$type 		whether we are loading a page or a form
+	 * @param 	string 	$name 		the page identifier
+	 * @param 	array 	$arguments 	extra arguments
+	 * 
+	 * @return 	string 	the HTML
+	 */
 	protected static function load($type, $name, $arguments = array())
 	{
 		if(array_key_exists($name, static::$modules[$type]))
@@ -152,6 +184,14 @@ class Module {
 		}
 	}
 
+	/**
+	 * Parse the path to the form or page
+	 * 
+	 * @param string $name
+	 * @param string $type
+	 * 
+	 * @return array($file,$class_name,$method)
+	 */
 	protected static function parse($name, $type)
 	{
 		list($path, $method) = explode('@', static::$modules[$type][$name]);
@@ -168,6 +208,7 @@ class Module {
 	 *
 	 * @param  string  $bundle
 	 * @param  string  $controller
+	 * 
 	 * @return string
 	 */
 	protected static function format($bundle, $path, $type)
@@ -175,6 +216,15 @@ class Module {
 		return Bundle::class_prefix($bundle).Str::classify($path).'_'.ucfirst($type);
 	}
 
+	/**
+	 * Register the route to a form or page
+	 * 
+	 * @param 	string 	$type 		whether we are registering a page or a form
+	 * @param 	string 	$name 		the identifier
+	 * @param 	string 	$action 	path to the class and method
+	 * 
+	 * @return 	void
+	 */
 	public static function register($type, $name, $action = null)
 	{
 		static::$modules[$type][$name] = $action;
@@ -182,6 +232,10 @@ class Module {
 
 	/**
 	 * The method for rendering the fields
+	 * 
+	 * @param Closure 	$callback 	The Closure containing the calls
+	 * 
+	 * @return string 	the generated HTML
 	 */
 	public static function render($callback)
 	{

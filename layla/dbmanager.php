@@ -21,6 +21,9 @@ namespace Layla;
 
 use Laravel\Config;
 
+/**
+ * This class adds an interaction layer to the DB for listing tables and columns.
+ */
 class DBManager {
 
 	/**

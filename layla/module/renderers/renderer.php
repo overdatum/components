@@ -27,6 +27,9 @@ use Closure;
 use Laravel\Session;
 use Laravel\Messages;
 
+/**
+ * This is the base class for all other Renderer classes and provides functionality that is shared among them
+ */
 class Renderer {
 
 	/**

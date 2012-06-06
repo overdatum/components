@@ -29,6 +29,9 @@ use Layla\Module\Catcher;
 use Bootsparks\Form;
 use Bootsparks\HTML;
 
+/**
+ * This class provides a handy interface for working with tabs
+ */
 class Tabs extends Renderer {
 
 	/**

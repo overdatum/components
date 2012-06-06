@@ -21,6 +21,9 @@ namespace Layla;
 
 use Laravel\Form as Laravel_Form;
 
+/**
+ * This class adds some functionality to Laravel's Form class
+ */
 class Form extends Laravel_Form {
 	
 	/**

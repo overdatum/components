@@ -9,6 +9,9 @@ use PDO;
 
 use DBManager;
 
+/**
+ * This is the base class for all other DBManager drivers and provides functionality that is shared among them
+ */
 abstract class Driver {
 
 	/**

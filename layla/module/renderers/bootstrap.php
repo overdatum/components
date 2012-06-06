@@ -26,6 +26,9 @@ use Layla\Module;
 use Bootsparks\Form;
 use Bootsparks\HTML;
 
+/**
+ * This class renders the components for Twitter Bootstrap
+ */
 class Bootstrap extends Renderer {
 
 	public function page_header($callback)
@@ -158,6 +161,11 @@ class Bootstrap extends Renderer {
 	public function button($url, $title, $variant = '', $size = 'large')
 	{
 		return HTML::link($url, $title, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
+	}
+
+	public function fieldset($title, $view)
+	{
+		return HTML::element('fieldset', HTML::element('legend', $title).Module::render($view));
 	}
 
 	public function tabs($callback, $variant = 'top')

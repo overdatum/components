@@ -5,6 +5,9 @@ use Laravel\Config;
 use Exception;
 use PDO;
 
+/**
+ * This class adds an interaction layer to the DB for listing tables and columns from a PostgreSQL database.
+ */
 class Postgres extends Driver {
 
 	/**

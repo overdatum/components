@@ -27,6 +27,10 @@ use Laravel\Input;
 use Laravel\Request;
 use Laravel\Routing\Route;
 
+/**
+ * This class makes it easy to call methods on the Layla API by calling the actual method directly.
+ * Which makes it great for debugging errors in the API.
+ */
 class Directly extends Driver {
 
 	/**

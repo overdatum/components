@@ -23,6 +23,9 @@ use Layla\API;
 
 use Laravel\Config;
 
+/**
+ * This is the base class for all other API drivers and provides functionality that is shared among them
+ */
 abstract class Driver {
 
 	/**

@@ -28,6 +28,9 @@ use Laravel\Paginator;
 use Bootsparks\Form;
 use Bootsparks\HTML;
 
+/**
+ * This class provides a handy interface for working with tables
+ */
 class Table extends Renderer {
 
 	/**

@@ -21,6 +21,9 @@ namespace Layla\API;
 
 use ArrayObject;
 
+/**
+ * This class provides a handy method for taking elements from a response.
+ */
 class Response {
 
 	/**

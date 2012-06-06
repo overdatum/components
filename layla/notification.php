@@ -22,6 +22,9 @@ namespace Layla;
 use Laravel\Session;
 use Laravel\View;
 
+/**
+ * This class provides a simple interface for adding and displaying notifications
+ */
 class Notification  {
 
 	/**
@@ -139,6 +142,7 @@ class Notification  {
 			'time' => $time,
 			'close' => $close
 		);
+		
 		Session::flash('notifications', static::$notifications);
 	}
 

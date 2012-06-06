@@ -21,6 +21,9 @@ namespace Layla;
 
 use Laravel\Config;
 
+/**
+ * This is the PHP implementation for interacting with the Layla API.
+ */
 class API {
 
 	/**
