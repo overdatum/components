@@ -2,9 +2,7 @@
 /**
  * HTML extensions for Layla.
  *
- * NOTICE OF LICENSE
- *
- * Licensed under the 3-clause BSD License.
+ * LICENSE
  *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file licence.txt.
