@@ -52,7 +52,18 @@ class MySQL extends Driver {
 
 		try
 		{
-			$this->table_info = $this->pdo->query("SHOW FULL COLUMNS FROM `$table`")->fetchAll(PDO::FETCH_ASSOC);
+			$columns = $this->pdo->query("SHOW FULL COLUMNS FROM `$table`")->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($columns as $column)
+			{
+				$this->table_info[] = array(
+					'name' => $column['field'],
+					'type' => $column['type'],
+					'nullable' => $column['null'] == 'NO' ? false : true,
+					'default' => $column['default'],
+					//'size' => $column['data_type'] == 'integer' ? $column['numeric_precision'] : $column['character_maximum_length']
+				);
+			}
+
 		}
 		catch (Exception $e)
 		{

@@ -7,7 +7,7 @@ use Laravel\Database\Schema;
 use Laravel\Config;
 use PDO;
 
-use DBManager;
+use Layla\DBManager;
 
 /**
  * This is the base class for all other DBManager drivers and provides functionality that is shared among them
