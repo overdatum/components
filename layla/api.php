@@ -20,6 +20,8 @@
 namespace Layla;
 
 use Laravel\Config;
+use Laravel\Routing\Router;
+use Laravel\Str;
 
 /**
  * This is the PHP implementation for interacting with the Layla API.
@@ -39,6 +41,39 @@ class API {
 	 * @var array
 	 */
 	public static $drivers = array();
+
+	/**
+	 * All of the API route types
+	 * 
+	 * @var array
+	 */
+	public static $types = array(
+		'list' => array(
+			'GET',
+			true,
+			false
+		),
+		'create' => array(
+			'POST',
+			false,
+			false
+		),
+		'read' => array(
+			'GET',
+			false,
+			true
+		),
+		'update' => array(
+			'PUT',
+			false,
+			true
+		),
+		'delete' => array(
+			'DELETE',
+			false,
+			true
+		)
+	);
 
 	/**
 	 * Get a API driver instance.
@@ -86,6 +121,61 @@ class API {
 
 			default:
 				throw new \Exception("API driver {$driver} is not supported.");
+		}
+	}
+
+	/**
+	 * Register API controllers
+	 * 
+	 * @param array $controllers 
+	 * @param array $parents
+	 */
+	public static function controller($controllers, $parents = array())
+	{
+		$api_prefix = Config::get('layla.domain.api.prefix');
+
+		if( ! empty($api_prefix))
+		{
+			$api_prefix .= '/';
+		}
+
+		foreach ($controllers as $controller => $options)
+		{
+			list($types, $children) = $options;
+
+			foreach ($types as $type)
+			{
+				list($method, $plural, $has_identity) = static::$types[$type];
+
+				$segment = $controller;
+
+				$action = static::$component.'::'.implode('.', $parents).(count($parents) > 0 ? '.' : '').$segment.'@'.$type;
+
+				if($plural)
+				{
+					$segment = Str::plural($segment);
+				}
+
+				$prefixes = array_map(function($parent)
+				{
+					return $parent.'/(:num)/';
+				}, $parents);
+
+				$prefix = implode('', $prefixes);
+
+				$route = $api_prefix.$prefix.$segment.($has_identity ? '/(:num)' : '');
+
+				Router::register($method, $route, $action);
+			}
+
+			$parents[] = $controller;
+
+			if(is_array($children))
+			{
+				static::controller($children, $parents);
+			}
+
+			$parents = array();
 		}
 	}
 

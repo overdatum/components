@@ -23,6 +23,7 @@ use Exception;
 
 use Layla\API\Response;
 
+use Laravel\Config;
 use Laravel\Input;
 use Laravel\Request;
 use Laravel\Routing\Route;
@@ -56,7 +57,10 @@ class Directly extends Driver {
 		$_SERVER['PHP_AUTH_PW'] = $config['password'];
 
 		list($url, $uri, $query_string) = static::url($segments, $data);
-		$response = Route::forward($method, $uri);
+
+		$prefix = Config::get('layla.domain.api.prefix').'/';
+		
+		$response = Route::forward($method, $prefix.$uri);
 
 		$code = $response->foundation->getStatusCode();
 		$body = $response->content;

@@ -50,7 +50,7 @@ abstract class Driver {
 	{
 		$config = static::config();
 
-		return array($config['url'].'/', 'v'.$config['version'].'/'.implode('/', $segments), (count($data) > 0 ? '?' . http_build_query($data) : ''));
+		return array($config['url'].'/', implode('/', $segments), (count($data) > 0 ? '?' . http_build_query($data) : ''));
 	}
 
 	/**
