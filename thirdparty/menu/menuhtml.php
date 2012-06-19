@@ -29,18 +29,6 @@ class MenuHTML extends HTML {
 	}
 
 	/**
-	 * Generate an un-ordered list of items.
-	 *
-	 * @param  array   $list
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function ul($list, $attributes = array())
-	{
-		return static::listing('ul', $list, $attributes);
-	}
-
-	/**
 	 * Generate an ordered or un-ordered list.
 	 *
 	 * @param  string  $type
@@ -48,7 +36,7 @@ class MenuHTML extends HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private static function listing($type, $list, $attributes = array())
+	public static function listing($type, $list, $attributes = array())
 	{
 		$html = '';
 
@@ -65,7 +53,7 @@ class MenuHTML extends HTML {
 			}
 			else
 			{
-				$html .= '<li>'.$value.'</li>';
+				$html .= $value;
 			}
 		}
 
@@ -97,4 +85,41 @@ class MenuHTML extends HTML {
 
 		return (count($html) > 0) ? ' '.implode(' ', $html) : '';
 	}
+
+	/**
+	 * Create a LI item
+	 *
+	 * @param  string   $value
+	 * @param  array   	$attributes
+	 * @return string
+	 */
+	public static function li($value, $attributes)
+	{
+		return '<li'.static::attributes($attributes).'>'.$value.'</li>';
+	}
+
+	/**
+	 * Create a DT item
+	 *
+	 * @param  string   $value
+	 * @param  array   	$attributes
+	 * @return string
+	 */
+	public static function dt($value, $attributes)
+	{
+		return '<dt'.static::attributes($attributes).'>'.$value.'</dt>';
+	}
+
+	/**
+	 * Create a set of DD breasts
+	 *
+	 * @param  string   $value
+	 * @param  array   	$attributes
+	 * @return string
+	 */
+	public static function dd($value, $attributes)
+	{
+		return '<dd'.static::attributes($attributes).'>'.$value.'</dd>';
+	}
+
 }
