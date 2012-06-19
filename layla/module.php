@@ -22,6 +22,8 @@ namespace Layla;
 use Layla\Module\Renderers\Tabs;
 use Layla\Module\Renderers\Table;
 use Layla\Module\Renderers\Bootstrap;
+use Layla\Module\Renderers\Layla;
+
 use Layla\Module\Catcher;
 
 use Closure;
@@ -104,6 +106,8 @@ class Module {
 				return new Table;
 			case 'tabs':
 				return new Tabs;
+			case 'layla':
+				return new Layla;
 
 			default:
 				throw new Exception("Module renderer driver \"{$driver}\" is not supported.");
