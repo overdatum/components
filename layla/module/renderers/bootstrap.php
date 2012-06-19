@@ -21,6 +21,7 @@ namespace Layla\Module\Renderers;
 
 use Laravel\Session;
 
+use Layla\Asset;
 use Layla\Module;
 
 use Bootsparks\Form;
@@ -168,6 +169,9 @@ class Bootstrap extends Renderer {
 		return HTML::element('fieldset', HTML::element('legend', $title).Module::render($view));
 	}
 
+	/**
+	 * @todo refactor this thing
+	 */
 	public function tabs($callback, $variant = 'top')
 	{
 		$tabs = Module::driver('tabs');
@@ -199,6 +203,13 @@ class Bootstrap extends Renderer {
 		}
 
 		return $output;
+	}
+
+	public function next_tab($text, $variant = '', $size = 'large')
+	{
+		Asset::container('footer')->add_js();
+	
+		return Form::button($text, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
 	}
 
 }
