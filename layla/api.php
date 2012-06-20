@@ -45,7 +45,7 @@ class API {
 	/**
 	 * All of the API route types
 	 * 
-	 * @var array
+	 * @var array (HTTP Method, plural, has identity)
 	 */
 	public static $types = array(
 		'list' => array(

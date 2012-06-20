@@ -69,7 +69,7 @@ class Layla extends Renderer {
 	public function page_header($callback)
 	{
 		$content = Module::render($callback);
-		return HTML::div(HTML::div($content, array('class' => 'controls')), array('class' => 'page-header'));
+		return HTML::div($content, array('class' => 'page-header'));
 	}
 
 	public function float_right($callback, $attributes = array())
