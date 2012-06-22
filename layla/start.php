@@ -9,3 +9,4 @@ Autoloader::namespaces(array(
 Autoloader::alias('Layla\\Notification', 'Notification');
 Autoloader::alias('Layla\\HTML', 'HTML');
 Autoloader::alias('Layla\\Module', 'Module');
+Autoloader::alias('Layla\\Route', 'Route');

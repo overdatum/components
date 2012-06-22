@@ -36,7 +36,7 @@ Event::listen(View::engine, function($view)
 	if(count($view->data) > 1)
 	{
 		$mustache = new LaylaMustache;
-		return $mustache->render(File::get($view->path), $view->data);
+		return $mustache->render(File::get($view->path), $view->data());
 	}
 
 	return File::get($view->path);
