@@ -2,6 +2,7 @@
 
 use Laravel\Config;
 use Laravel\Str;
+use Laravel\Routing\Router;
 use Laravel\Routing\Route as Laravel_Route;
 
 class Route extends Laravel_Route {
@@ -12,27 +13,32 @@ class Route extends Laravel_Route {
 	 * @var array (HTTP Method, plural, has identity)
 	 */
 	public static $types = array(
-		'list' => array(
+		'read_multiple' => array(
+			'GET',
 			true,
 			false,
 			''
 		),
 		'create' => array(
+			'POST',
 			false,
 			false,
 			'add'
 		),
 		'read' => array(
+			'GET',
 			false,
 			true,
 			'detail'
 		),
 		'update' => array(
+			'PUT',
 			false,
 			true,
 			'edit'
 		),
 		'delete' => array(
+			'DELETE',
 			false,
 			true,
 			'delete'
@@ -42,10 +48,39 @@ class Route extends Laravel_Route {
 	/**
 	 * Register API controllers
 	 * 
-	 * @param array $controllers 
-	 * @param array $parents
+	 * @param array		$controllers	the controllers and config
+	 * @param string	$bundle			the bundle where the controller can be found
+	 * @param string	$url_prefix		a global url prefix
+	 * @param array		$parents
 	 */
-	public static function opinionated($controllers, $bundle, $url_prefix, $enable_postfix = false, $parents = array())
+	public static function api($controllers, $bundle, $url_prefix, $parents = array())
+	{
+		static::opinionated($controllers, $bundle, $url_prefix, 'api', $parents);
+	}
+	
+	/**
+	 * Register page controllers
+	 * 
+	 * @param array		$controllers	the controllers and config
+	 * @param string	$bundle			the bundle where the controller can be found
+	 * @param string	$url_prefix		a global url prefix
+	 * @param array		$parents
+	 */
+	public static function pages($controllers, $bundle, $url_prefix, $parents = array())
+	{
+		static::opinionated($controllers, $bundle, $url_prefix, 'pages', $parents);
+	}
+
+	/**
+	 * Register opinionated controllers
+	 * 
+	 * @param array		$controllers	the controllers and config
+	 * @param string	$bundle			the bundle where the controller can be found
+	 * @param string	$url_prefix		a global url prefix
+	 * @param string	$route_type		the type of the route (pages or api)
+	 * @param array		$parents
+	 */
+	public static function opinionated($controllers, $bundle, $url_prefix, $route_type, $parents = array())
 	{
 		if( ! ends_with($url_prefix, '/'))
 		{
@@ -58,7 +93,7 @@ class Route extends Laravel_Route {
 
 			foreach ($types as $type)
 			{
-				list($plural, $has_identity, $postfix) = static::$types[$type];
+				list($method, $plural, $has_identity, $postfix) = static::$types[$type];
 
 				$segment = $controller;
 
@@ -76,16 +111,21 @@ class Route extends Laravel_Route {
 
 				$prefix = implode('', $prefixes);
 
-				$route = $url_prefix.$prefix.$segment.($has_identity ? '/(:any)' : '').($enable_postfix && ! is_null($postfix) ? '/'.$postfix : '');
+				$route = $url_prefix.$prefix.$segment.($has_identity ? '/(:any)' : '').($route_type == 'pages' && $postfix ? '/'.$postfix : '');
 
-				static::any($route, $action);
+				if($route_type == 'pages')
+				{
+					$method = '*';
+				}
+
+				Router::register($method, $route, $action);
 			}
 
 			$parents[] = $controller;
 
 			if(is_array($children))
 			{
-				static::opinionated($children, $bundle, $url_prefix, $enable_postfix, $parents);
+				static::opinionated($children, $bundle, $url_prefix, $route_type, $parents);
 			}
 
 			$parents = array();
