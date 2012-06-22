@@ -166,6 +166,11 @@ class Layla extends Renderer {
 		return Form::field('text', $name, $label, array($value), array('error' => $this->errors->first($name)));
 	}
 
+	public function textarea($name, $label, $value)
+	{
+		return Form::field('textarea', $name, $label, array($value), array('error' => $this->errors->first($name)));
+	}
+
 	public function password($name, $label, $value = '')
 	{
 		return Form::field('password', $name, $label, array(), array('error' => $this->errors->first($name)));
