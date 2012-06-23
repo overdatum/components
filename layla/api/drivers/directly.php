@@ -58,7 +58,7 @@ class Directly extends Driver {
 
 		list($url, $uri, $query_string) = static::url($segments, $data);
 
-		$prefix = Config::get('layla.domain.api.prefix');
+		$prefix = Config::get('layla.domain.url_prefix');
 
 		if( ! is_null($prefix))
 		{
