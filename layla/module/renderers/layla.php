@@ -19,6 +19,7 @@
 
 namespace Layla\Module\Renderers;
 
+use Laravel\URI;
 use Laravel\Session;
 
 use Layla\Asset;
@@ -100,7 +101,7 @@ class Layla extends Renderer {
 
 	public function search()
 	{
-		return Form::open('', 'GET').
+		return Form::open(URI::current(), 'GET').
 				Form::text('q', null, array('class' => 'search')).
 			Form::close();
 	}
