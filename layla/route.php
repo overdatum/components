@@ -23,25 +23,31 @@ class Route extends Laravel_Route {
 			'POST',
 			false,
 			false,
-			'add'
+			'add/(:any?)/(:any?)'
 		),
 		'read' => array(
 			'GET',
 			false,
 			true,
-			'detail'
+			'detail/(:any?)'
 		),
 		'update' => array(
 			'PUT',
 			false,
 			true,
-			'edit'
+			'edit/(:any?)'
+		),
+		'translate' => array(
+			'PUT',
+			false,
+			true,
+			''
 		),
 		'delete' => array(
 			'DELETE',
 			false,
 			true,
-			'delete'
+			'delete/(:any?)'
 		)
 	);
 
