@@ -1,4 +1,4 @@
-<?php namespace Layla\Module;
+<?php namespace Layla\Artifact;
 
 use Laravel\Validator;
 use Laravel\Input;

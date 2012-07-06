@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of the Module builder for Layla.
+ * Artifact - A View abstraction taken from Layla.
  *
  * LICENSE
  *
@@ -17,10 +17,10 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module\Renderers;
+namespace Layla\Artifact\Renderers;
 
-use Layla\Module;
-use Layla\Module\Catcher;
+use Layla\Artifact;
+use Layla\Artifact\Catcher;
 
 use Laravel\Session;
 use Laravel\Paginator;
@@ -137,7 +137,7 @@ class Table extends Renderer {
 		// Render and return the no_results view when no rows are found
 		if(count($rows) === 0)
 		{
-			return Module::render($this->no_results);
+			return Artifact::render($this->no_results);
 		}
 
 		// Create the table calls that will be sent off to the default Renderer later
@@ -178,7 +178,7 @@ class Table extends Renderer {
 		};
 
 		// Render the table with the default Renderer and return the html
-		return Module::render($display);
+		return Artifact::render($display);
 	}
 
 }

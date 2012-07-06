@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of the Module builder for Layla.
+ * Artifact - A View abstraction taken from Layla.
  *
  * LICENSE
  *
@@ -17,9 +17,9 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module\Renderers;
+namespace Layla\Artifact\Renderers;
 
-use Layla\Module\Catcher;
+use Layla\Artifact\Catcher;
 use Layla\Notification;
 
 use Closure;
@@ -112,7 +112,7 @@ class Renderer {
 		{
 			if($child instanceof Closure)
 			{
-				$output .= Module::render($child);
+				$output .= Artifact::render($child);
 			}
 			else {
 				$output .= "\n".$child;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of the Module builder for Layla.
+ * Artifact - A View abstraction taken from Layla.
  *
  * LICENSE
  *
@@ -17,14 +17,14 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module\Renderers;
+namespace Layla\Artifact\Renderers;
 
 use Closure;
 
 use Laravel\Session;
 
-use Layla\Module;
-use Layla\Module\Catcher;
+use Layla\Artifact;
+use Layla\Artifact\Catcher;
 
 use Bootsparks\Form;
 use Bootsparks\HTML;

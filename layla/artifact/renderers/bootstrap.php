@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of the Module builder for Layla.
+ * Artifact - A View abstraction taken from Layla.
  *
  * LICENSE
  *
@@ -17,13 +17,11 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module\Renderers;
+namespace Layla\Artifact\Renderers;
 
-use Laravel\URI;
 use Laravel\Session;
 
-use Layla\Asset;
-use Layla\Module;
+use Layla\Artifact;
 
 use Bootsparks\Form;
 use Bootsparks\HTML;
@@ -31,45 +29,11 @@ use Bootsparks\HTML;
 /**
  * This class renders the components for Twitter Bootstrap
  */
-class Layla extends Renderer {
-
-	public function full_list($callback)
-	{
-		$content = Module::render($callback);
-		return HTML::div(HTML::div(HTML::div($content, array('class' => 'list')), array('class' => 'container')), array('class' => 'list-column'));
-	}
-
-	public function versions($callback)
-	{
-		$content = Module::render($callback);
-		return HTML::div(HTML::div(HTML::div($content, array('class' => 'list')), array('class' => 'container')), array('class' => 'versions-column'));
-	}
-
-	public function header($callback)
-	{
-		$content = Module::render($callback);
-		return HTML::div(HTML::div($content, array('class' => 'controls')), array('class' => 'header'));
-	}
-
-	public function items($callback)
-	{
-		$content = Module::render($callback);
-		return HTML::element('ul', $content, array('class' => 'items'));
-	}
-
-	public function templates($templates)
-	{
-		return;
-	}
-
-	public function no_results($message)
-	{
-		return $message;
-	}
+class Bootstrap extends Renderer {
 
 	public function page_header($callback)
 	{
-		$content = Module::render($callback);
+		$content = Artifact::render($callback);
 		return HTML::div($content, array('class' => 'page-header'));
 	}
 
@@ -85,7 +49,7 @@ class Layla extends Renderer {
 
 	public function float($float, $callback, $attributes = array())
 	{
-		$content = Module::render($callback);
+		$content = Artifact::render($callback);
 		return HTML::div($content, merge_attributes(array('class' => 'pull-'.$float), $attributes));
 	}
 
@@ -101,29 +65,32 @@ class Layla extends Renderer {
 
 	public function search()
 	{
-		return Form::open(URI::current(), 'GET').
-				Form::text('q', null, array('class' => 'search')).
-			Form::close();
+		return HTML::div(
+			Form::open('', 'GET').
+				Form::text('q', null, array('placeholder' => 'Search')).
+				Form::submit('<span class="icon-search icon-white"></span>', array('class' => 'btn btn-primary')).
+			Form::close()
+		, array('id' => 'search'));
 	}
 
 	public function table($config)
 	{
-		return HTML::element('table', Module::driver('table')->render($config), array('class' => 'table table-striped'));
+		return HTML::element('table', Artifact::driver('table')->render($config), array('class' => 'table table-striped'));
 	}
 
 	public function thead($callback)
 	{
-		return HTML::element('thead', Module::render($callback));
+		return HTML::element('thead', Artifact::render($callback));
 	}
 
 	public function tbody($callback)
 	{
-		return HTML::element('tbody', Module::render($callback));
+		return HTML::element('tbody', Artifact::render($callback));
 	}
 
 	public function tr($callback)
 	{
-		return HTML::element('tr', Module::render($callback));
+		return HTML::element('tr', Artifact::render($callback));
 	}
 
 	public function th($content)
@@ -141,14 +108,12 @@ class Layla extends Renderer {
 		return $paginator->links();
 	}
 
-	public function form($callback, $method = 'GET', $url = '')
+	public function form($content, $method = 'GET', $url = '')
 	{
-		$content = Module::render($callback);
-		return HTML::div(HTML::div(
+		return
 			Form::open($url, strtoupper($method), array('class' => 'form-horizontal')).
-				$content.
-			Form::close()
-		, array('class' => 'container')), array('class' => 'form-column'));
+				$this->add($content).
+			Form::close();
 	}
 
 	public function link($url, $title)
@@ -158,18 +123,13 @@ class Layla extends Renderer {
 
 	public function well($callback)
 	{
-		$content = Module::render($callback);
+		$content = Artifact::render($callback);
 		return HTML::div($content, array('class' => 'well'));
 	}
 
 	public function text($name, $label, $value = '')
 	{
 		return Form::field('text', $name, $label, array($value), array('error' => $this->errors->first($name)));
-	}
-
-	public function textarea($name, $label, $value)
-	{
-		return Form::field('textarea', $name, $label, array($value), array('error' => $this->errors->first($name)));
 	}
 
 	public function password($name, $label, $value = '')
@@ -189,7 +149,7 @@ class Layla extends Renderer {
 
 	public function actions($callback)
 	{
-		$content = Module::render($callback);
+		$content = Artifact::render($callback);
 		return Form::actions($content);
 	}
 
@@ -205,7 +165,7 @@ class Layla extends Renderer {
 
 	public function fieldset($title, $view)
 	{
-		return HTML::element('fieldset', HTML::element('legend', $title).Module::render($view));
+		return HTML::element('fieldset', HTML::element('legend', $title).Artifact::render($view));
 	}
 
 	/**
@@ -213,7 +173,7 @@ class Layla extends Renderer {
 	 */
 	public function tabs($callback, $variant = 'top')
 	{
-		$tabs = Module::driver('tabs');
+		$tabs = Artifact::driver('tabs');
 
 		$tabs->apply($callback);
 
@@ -231,7 +191,7 @@ class Layla extends Renderer {
 		foreach ($tabs->contents as $i => $content)
 		{
 			$i++;
-			$contents .= HTML::div(Module::render($content), array('id' => 'tab'.$i, 'class' => 'tab-pane'.($i == $tabs->active ? ' active' : '')));
+			$contents .= HTML::div(Artifact::render($content), array('id' => 'tab'.$i, 'class' => 'tab-pane'.($i == $tabs->active ? ' active' : '')));
 		}
 
 		$output .= HTML::div($contents, array('class' => 'tab-content'));
@@ -246,8 +206,6 @@ class Layla extends Renderer {
 
 	public function next_tab($text, $variant = '', $size = 'large')
 	{
-		Asset::container('footer')->add_js();
-	
 		return Form::button($text, array('class' => 'btn'.($variant == '' ? '' : ' btn-'.$variant).' btn-'.$size));
 	}
 

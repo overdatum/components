@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of the Module builder for Layla.
+ * Artifact - A View abstraction taken from Layla.
  *
  * LICENSE
  *
@@ -17,7 +17,7 @@
  * @link       http://getlayla.com
  */
 
-namespace Layla\Module;
+namespace Layla\Artifact;
 
 /**
  * This class will catch all methods (and their arguments) that are called on it
